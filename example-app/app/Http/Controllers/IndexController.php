@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
-
 class IndexController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
-        return view('index', ['name' => 'Damien']);
-    }
+        $site_settings = [
+            'title' => setting('site.title'),
+            'description' => setting('site.description')
+        ];
 
+        return view('home', [
+            'site_settings' => $site_settings
+        ]);
+    }
 }
