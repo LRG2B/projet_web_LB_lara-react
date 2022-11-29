@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 
+use App\Http\Requests\BlogStoreRequest; //pour aller chercher la verif de base commun au fonction store et update
+
+use App\Http\Resources\BlogResource; //definie les donnée retourner par les methodes get : show et index
+
+
 class BlogController extends Controller
 {
     /**
@@ -14,21 +19,10 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::latest()->paginate(10);
-        return [
-            "status" => 1,
-            "data" => $blogs
-        ];
-    }
+        $blog = Blog::all();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        // On retourne les informations des utilisateurs en JSON
+        return BlogResource::collection($blog);;
     }
 
     /**
@@ -37,7 +31,7 @@ class BlogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BlogStoreRequest $request)
     {
         $request->validate([
             'title' => 'required',
@@ -49,6 +43,8 @@ class BlogController extends Controller
             "status" => 1,
             "data" => $blog
         ];
+
+        return response()->json($blog, 201);
     }
 
     /**
@@ -59,21 +55,8 @@ class BlogController extends Controller
      */
     public function show(Blog $blog)
     {
-        return [
-            "status" => 1,
-            "data" =>$blog
-        ];
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Blog  $blog
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Blog $blog)
-    {
-        //
+        // On retourne les informations de l'article en JSON
+        return new BlogResource($blog);
     }
 
     /**
@@ -83,20 +66,19 @@ class BlogController extends Controller
      * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Blog $blog)
+    public function update(BlogStoreRequest $request, Blog $blog)
     {
-        $request->validate([
+        $request->validate([$request,
             'title' => 'required',
             'body' => 'required',
         ]);
 
-        $blog->update($request->all());
+        $blog->update([
+            'title' => $request->title,
+            'body' => $request->body
+        ]);
 
-        return [
-            "status" => 1,
-            "data" => $blog,
-            "msg" => "Blog updated successfully"
-        ];
+        return response()->json();
     }
 
     /**
@@ -108,10 +90,8 @@ class BlogController extends Controller
     public function destroy(Blog $blog)
     {
         $blog->delete();
-        return [
-            "status" => 1,
-            "data" => $blog,
-            "msg" => "Blog deleted successfully"
-        ];
+        return response()->json([
+            "message" => "Article supprimer"
+        ]);
     }
 }
