@@ -10,7 +10,8 @@ class BlogStoreRequest extends FormRequest
         $blog_id = $this->blog->id ?? null; // L'indentifiant de l'utilisateur
         return [
             'title' => 'required',
-            'body' => 'required'
+            'body' => 'required',
+            'category' => 'require'
         ];
     }
 }

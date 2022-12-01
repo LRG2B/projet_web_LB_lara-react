@@ -33,16 +33,11 @@ class BlogController extends Controller
      */
     public function store(BlogStoreRequest $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'body' => 'required',
+        $blog = Blog::create([
+            'title' => $request->title,
+            'body' => $request->body,
+            'category' => $request->category
         ]);
-
-        $blog = Blog::create($request->all());
-        return [
-            "status" => 1,
-            "data" => $blog
-        ];
 
         return response()->json($blog, 201);
     }
@@ -68,17 +63,15 @@ class BlogController extends Controller
      */
     public function update(BlogStoreRequest $request, Blog $blog)
     {
-        $request->validate([$request,
-            'title' => 'required',
-            'body' => 'required',
-        ]);
-
         $blog->update([
             'title' => $request->title,
-            'body' => $request->body
+            'body' => $request->body,
+            'category' => $request->category
         ]);
 
-        return response()->json();
+        return response()->json([
+            "message" => "Article modifier"
+        ]);
     }
 
     /**
