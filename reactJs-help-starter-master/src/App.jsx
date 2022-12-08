@@ -22,11 +22,26 @@ function App() {
 
     //Fonction qu'on va appeler quand on va essayer de se login in
     const Login = details => {
+        //Affiche dans la console les éléments passé en paramêtres
         console.log(details);
+
+        if (details.email == adminUser.email && details.password == adminUser.password) {
+            console.log("Logged in")
+            setUser({
+                name: details.name,
+                email: details.email
+            });
+        } 
+        else {
+            console.log("Details do not match")
+            setError("Details do not match")
+        }
     }
 
     const Logout = () => {
         console.log("Logout");
+        //On return rien dans la condition n'est plus rempli et le formulaire réapparais
+        setUser({name: "", email: ""})
     }
 //--------------------------------------------------------
 
@@ -46,11 +61,11 @@ function App() {
  
     return (
         <div className="App">
-            <h1>Les articles</h1>
+            <h1>Les articles</h1> {/*Si les conditions sont remplis cela s'affiche*/}
             {(user.email != "") ? (
                 <div className="welcome"> {/*Affichage du nom*/}
                     <h2>Welcome, <span>{user.name}</span></h2>
-                    <button>Logout</button>
+                    <button onClick={Logout}>Logout</button>
                 </div>
             ) : ( //Si on est pas login, on lance le login
                 <LoginForm Login={Login} error={error}/>
