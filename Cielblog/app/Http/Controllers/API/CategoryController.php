@@ -15,10 +15,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $users = Category::all();
+        $category = Category::all();
 
         // On retourne les informations des utilisateurs en JSON
-        return response()->json($users);
+        return response()->json($category);
     }
 
     /**
@@ -77,7 +77,9 @@ class CategoryController extends Controller
             'slug' => $request->slug
         ]);
 
-        return response()->json();
+        return response()->json([
+            "message" => "Article modifier"
+        ]);
     }
 
     /**
@@ -90,6 +92,8 @@ class CategoryController extends Controller
     {
         $category->delete();
 
-        return response()->json();
+        return response()->json([
+            "message" => "Article supprimer"
+        ]);
     }
 }
