@@ -13,11 +13,11 @@ function App() {
     const { posts, setPosts } = usePostStore();
     const [SearchTerm, setSearchTerm] = useState("");
 
+    //Pour les categories
     const { categories, setCategories } = usePostCategories();
 
-    const LoginCategories = details => {
-        console.log(details);
-    }
+    const [recupCategorie, setRecupCategories] = useState("");
+
  
 //---------------------------------Login/Logout
     const adminUser = {
@@ -35,7 +35,8 @@ function App() {
         console.log(details);
 
         if (details.email == adminUser.email && details.password == adminUser.password) {
-            console.log("Logged in")
+            //Affiche tous dans le console.log (name, email, password passé en paramêtre)
+            //console.log("Logged in")
             setUser({
                 name: details.name,
                 email: details.email
@@ -87,28 +88,38 @@ function App() {
             )}
             {/* <Categories />*/}
 
-            {/*Pour la fonction rechercher*/}
+            {/*-------------------Pour la fonction rechercher----------------*/}
             <input type="text" placeholder="search"
                 //Dès qu'un changement est capté
                 onChange={handleSearchTerm}
             />
 
-            {/*Pour le choix de categories*/}
+            {/*--------------Pour le choix de categories-------------*/}
             <div className="CATEGORIES">
-                <select>
+                <select className="custom-select"
+                    value={recupCategorie} //Recup de la catégorie choisi
+                    onChange={(e) => {
+                        const selectedCategorie = e.target.value; 
+                        //Recup premier donnée passé en paramêtres donc : l'ID
+                        setRecupCategories(Array.from(selectedCategorie[0]));
+                        //setRecupCategories(selectedCategorie);
+                    }}
+                >
+                    <option value="RESET"></option>
                 {categories.length > 0 && categories.map((data) => {
                     return (
-                            <option>{data.name}</option>
+                            <option value={data.id}> - {data.name}</option>
                     );
                 })}
-                </select>
+                </select> {/*Affichage de la donnée choisi*/}
+                {recupCategorie}
             </div>
 
             <div className="card">
-            {/*Afficher tous les articles*/}
-                {posts.filter((post) => {
-                        return post.title.toLowerCase().includes(SearchTerm.toLowerCase()) //Si des mots qu'on a mis dans la barre de recherche se situe dans les titres des articles
-                }).map((post) => {                                                        //toLowerCase va convertir le texte en minuscule même si on tape en majuscule (davantage de souplesse pour l'utilisateur)
+            {/*---------------Afficher tous les articles--------------------*/}
+                {posts.filter((post) => {  //toLowerCase va convertir le texte en minuscule même si on tape en majuscule (davantage de souplesse pour l'utilisateur)
+                        return (post.title.toLowerCase().includes(SearchTerm.toLowerCase()) && post.category_id == recupCategorie)//Si des mots qu'on a mis dans la barre de recherche se situe dans les titres des articles
+                }).map((post) => {
                         return (
                             <div key={post.id}>
                                 {/*Consulter directement l'article*/}
