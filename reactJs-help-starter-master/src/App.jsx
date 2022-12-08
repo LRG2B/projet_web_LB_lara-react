@@ -2,13 +2,22 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import { Link } from 'react-router-dom';
 import { usePostStore } from './store/postStore';
+import { usePostCategories } from './store/postStore';
 
 import LoginForm from './component/LoginForm';
+
+import Categories from './component/Categories';
  
  
 function App() {
     const { posts, setPosts } = usePostStore();
     const [SearchTerm, setSearchTerm] = useState("");
+
+    const { categories, setCategories } = usePostCategories();
+
+    const LoginCategories = details => {
+        console.log(details);
+    }
  
 //---------------------------------Login/Logout
     const adminUser = {
@@ -58,6 +67,12 @@ function App() {
             .then((res) => res.json())
             .then((res) => setPosts(res)); //Avant c'était setPosts(res.data)
     }, []);
+
+    useEffect(() => {
+        fetch('http://127.0.0.1:8000/api/categories/')
+            .then((res3) => res3.json())
+            .then((res3) => setCategories(res3));
+    }, []);
  
     return (
         <div className="App">
@@ -70,13 +85,25 @@ function App() {
             ) : ( //Si on est pas login, on lance le login
                 <LoginForm Login={Login} error={error}/>
             )}
+            {/* <Categories />*/}
 
             {/*Pour la fonction rechercher*/}
             <input type="text" placeholder="search"
                 //Dès qu'un changement est capté
                 onChange={handleSearchTerm}
             />
- 
+
+            {/*Pour le choix de categories*/}
+            <div className="CATEGORIES">
+                <select>
+                {categories.length > 0 && categories.map((data) => {
+                    return (
+                            <option>{data.name}</option>
+                    );
+                })}
+                </select>
+            </div>
+
             <div className="card">
             {/*Afficher tous les articles*/}
                 {posts.filter((post) => {
