@@ -10,18 +10,6 @@ use Illuminate\Http\Request;
 class Save_blogController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $save_blog = Save_blog::all();
-
-        return response()->json($save_blog);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -29,17 +17,28 @@ class Save_blogController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'account_id' => 'required',
-            'article_id' => 'required'
-        ]);
 
-        $save_blog = Save_blog::created([
-            'account_id' => $request->account_id,
-            'article_id' => $request->article_id
-        ]);
+        session_start();
 
-        return response()->json($save_blog, 201);
+        if (isset($_COOKIE['PHPSESSID']) && isset($_SESSION['account_id'])) {
+            if ($_COOKIE['PHPSESSID'] == session_id() || $_SESSION['admin']){
+
+                    $this->validate($request, [
+                        'article_id' => 'required'
+                    ]);
+            
+                    $save_blog = Save_blog::created([
+                        'account_id' => $request->account_id,
+                        'article_id' => $_SESSION['account_id']
+                    ]);
+            
+                    return response()->json($save_blog, 201);              
+            }
+        } else {
+            return response()->json([
+                "message" => "Il faut aller ce connecter"
+            ]);
+        }
     }
 
     /**
@@ -50,31 +49,23 @@ class Save_blogController extends Controller
      */
     public function show(Save_blog $save_blog)
     {
-        return response()->json($save_blog);
-    }
+        
+        session_start();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Save_blog  $save_blog
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Save_blog $save_blog)
-    {
-        $this->validate($request, [
-            'account_id' => 'required',
-            'article_id' => 'required'
-        ]);
-
-        $save_blog->update([
-            'account_id' => $request->account_id,
-            'article_id' => $request->article_id
-        ]);
-
-        return response()->json([
-            'message' => 'article modifier'
-        ]);
+        if (isset($_COOKIE['PHPSESSID']) && isset($_SESSION['account_id'])) {
+            if ($_COOKIE['PHPSESSID'] == session_id() || $_SESSION['admin']){
+                
+                return response()->json($save_blog);                            
+            }
+            else
+                return response()->json([
+                    "message" => "Vous n'avez pas l'autorisation pour accéder a ce contenu"
+                ]);
+        } else {
+            return response()->json([
+                "message" => "Il faut aller ce connecter"
+            ]);
+        }   
     }
 
     /**
@@ -85,10 +76,26 @@ class Save_blogController extends Controller
      */
     public function destroy(Save_blog $save_blog)
     {
-        $save_blog->delete();
+                
+        session_start();
 
-        return response()->json([
-            'message' => 'article supprimer'
-        ]);
+        if (isset($_COOKIE['PHPSESSID']) && isset($_SESSION['account_id'])) {
+            if ($_COOKIE['PHPSESSID'] == session_id() || $_SESSION['admin']){
+                               
+                $save_blog->delete();
+        
+                return response()->json([
+                    'message' => 'article supprimer'
+                ]);                                            
+            }
+            else
+                return response()->json([
+                    "message" => "Vous n'avez pas l'autorisation pour accéder a ce contenu"
+                ]);
+        } else {
+            return response()->json([
+                "message" => "Il faut aller ce connecter"
+            ]);
+        }   
     }
 }

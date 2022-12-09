@@ -13,7 +13,7 @@ class AccountController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function login(Request $request)
     {
         if (session_status() > 1)
             disconnect();
@@ -147,9 +147,8 @@ class AccountController extends Controller
         session_start();
 
         if (isset($_COOKIE['PHPSESSID']) && isset($_SESSION['account_id'])) {
-            if ($_COOKIE['PHPSESSID'] == session_id() || $_SESSION['admin']){
-
-                if ($_SESSION['account_id'] == $account->id){
+            if ($_COOKIE['PHPSESSID'] == session_id()){
+                if ($_SESSION['account_id'] == $account->id || $_SESSION['admin']){
                     $account->delete();
                     return response()->json([
                         "message" => "Compte supprimer"
