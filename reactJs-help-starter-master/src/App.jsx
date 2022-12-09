@@ -6,10 +6,8 @@ import { usePostCategories } from './store/postStore';
 
 import LoginForm from './component/LoginForm';
 
-//import Request from './component/Request';
-//import PassageParametres from './component/Request';
 import {Post_Request_Categories,Patch_Request_Categories,DELETE_Request_Categories} from './component/Request';
- 
+import Login_API from './component/Login_API'; 
  
 function App() {
     const { posts, setPosts } = usePostStore();
@@ -96,6 +94,10 @@ function App() {
             {/*Request()*/} {<Post_Request_Categories />}
             {<Patch_Request_Categories/>}
             {<DELETE_Request_Categories />}
+
+
+            {/*---------------------------LOGIN NEW FORM---------------------*/}
+            {<Login_API />}
 
             {/*-------------------Pour la fonction rechercher----------------*/}
             <input type="text" placeholder="search"
