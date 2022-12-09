@@ -6,7 +6,9 @@ import { usePostCategories } from './store/postStore';
 
 import LoginForm from './component/LoginForm';
 
-import Categories from './component/Categories';
+//import Request from './component/Request';
+//import PassageParametres from './component/Request';
+import {Post_Request_Categories,Patch_Request_Categories,DELETE_Request_Categories} from './component/Request';
  
  
 function App() {
@@ -16,6 +18,8 @@ function App() {
     //Pour les categories
     const { categories, setCategories } = usePostCategories();
 
+
+    //A corriger + tard
     const [recupCategorie, setRecupCategories] = useState("");
 
  
@@ -74,6 +78,7 @@ function App() {
             .then((res3) => res3.json())
             .then((res3) => setCategories(res3));
     }, []);
+
  
     return (
         <div className="App">
@@ -86,7 +91,11 @@ function App() {
             ) : ( //Si on est pas login, on lance le login
                 <LoginForm Login={Login} error={error}/>
             )}
-            {/* <Categories />*/}
+
+            {/*----------------------------------POST/PATCH/DELETE/CATEGORIES-------------------------*/}
+            {/*Request()*/} {<Post_Request_Categories />}
+            {<Patch_Request_Categories/>}
+            {<DELETE_Request_Categories />}
 
             {/*-------------------Pour la fonction rechercher----------------*/}
             <input type="text" placeholder="search"
@@ -108,12 +117,13 @@ function App() {
                     <option value="RESET"></option>
                 {categories.length > 0 && categories.map((data) => {
                     return (
-                            <option value={data.id}> - {data.name}</option>
+                            <option>{data.id} - {data.name}</option>
                     );
                 })}
                 </select> {/*Affichage de la donnée choisi*/}
                 {recupCategorie}
-            </div>
+            </div>  {/*-----------------------------------------------------------*/}
+
 
             <div className="card">
             {/*---------------Afficher tous les articles--------------------*/}
@@ -134,8 +144,3 @@ function App() {
 }
  
 export default App;
- 
- 
- 
- 
-
