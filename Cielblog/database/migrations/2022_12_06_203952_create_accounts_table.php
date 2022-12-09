@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('mail')->unique();
             $table->string('password');
+            $table->boolean('admin');
             $table->timestamps();
         });
     }
@@ -29,6 +30,7 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('accounts');
     }
 };

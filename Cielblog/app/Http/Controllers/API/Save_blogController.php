@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Save_blog;
+use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
 
 class Save_blogController extends Controller
@@ -28,7 +29,17 @@ class Save_blogController extends Controller
      */
     public function store(Request $request)
     {
-        return response()->json();
+        $this->validate($request, [
+            'account_id' => 'required',
+            'article_id' => 'required'
+        ]);
+
+        $save_blog = Save_blog::created([
+            'account_id' => $request->account_id,
+            'article_id' => $request->article_id
+        ]);
+
+        return response()->json($save_blog, 201);
     }
 
     /**
@@ -39,7 +50,7 @@ class Save_blogController extends Controller
      */
     public function show(Save_blog $save_blog)
     {
-        return response()->json();
+        return response()->json($save_blog);
     }
 
     /**
@@ -51,7 +62,19 @@ class Save_blogController extends Controller
      */
     public function update(Request $request, Save_blog $save_blog)
     {
-        return response()->json();
+        $this->validate($request, [
+            'account_id' => 'required',
+            'article_id' => 'required'
+        ]);
+
+        $save_blog->update([
+            'account_id' => $request->account_id,
+            'article_id' => $request->article_id
+        ]);
+
+        return response()->json([
+            'message' => 'article modifier'
+        ]);
     }
 
     /**
@@ -62,6 +85,10 @@ class Save_blogController extends Controller
      */
     public function destroy(Save_blog $save_blog)
     {
-        return response()->json();
+        $save_blog->delete();
+
+        return response()->json([
+            'message' => 'article supprimer'
+        ]);
     }
 }

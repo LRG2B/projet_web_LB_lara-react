@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    //use HasFactory;
-
+    use HasFactory;
     /**
      * The attributes that are mass assignable.
      *
@@ -16,7 +15,20 @@ class Article extends Model
      */
     protected $fillable = [
         'title',
-        'body'
+        'body',
+        'category_id',
+        'account_id'
     ];
 
+    public function category_id() {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function account_id() {
+        return $this->belongsTo(Account::class);
+    }
+
+    public function save_blog() {
+        return $this->hasMany(Save_blog::class);
+    }
 }
