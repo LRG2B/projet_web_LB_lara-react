@@ -27,5 +27,5 @@ Route::apiResource("categories", CategoryController::class);
 Route::apiResource("articles", ArticleController::class);
 Route::apiResource("save_blogs", Save_blogController::class);
 Route::apiResource("accounts", AccountController::class);
-Route::get('/accounts', [AccountController::class, 'index']);
 Route::get('logout', [AccountController::class, 'logout']);
+Route::post('login', [AccountController::class, 'login']);

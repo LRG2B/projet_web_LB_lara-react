@@ -28,21 +28,39 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'title' => 'required|max:100',
-            'body' => 'required',
-            'category_id' => 'required',
-            'account_id' => 'required'
-        ]);
+        session_start();
 
-        $article = Article::created([
-            'title' => $request->title,
-            'body' => $request->body,
-            'category_id' => $request->category_id,
-            'account_id' => $request->account_id
-        ]);
+        if (isset($_COOKIE['PHPSESSID'])) {
+            if ($_COOKIE['PHPSESSID'] == session_id()) {
+                
+                if ($_SESSION['admin']) {
 
-        return response()->json($article, 201);
+                    $this->validate($request, [
+                        'title' => 'required|max:100',
+                        'body' => 'required',
+                        'category_id' => 'required'
+                    ]);
+            
+                    $article = Article::created([
+                        'title' => $request->title,
+                        'body' => $request->body,
+                        'category_id' => $request->category_id,
+                        'account_id' => $_SESSION['account_id']
+                    ]);
+            
+                    return response()->json($article, 201);
+                   
+                } else
+                    return response()->json([
+                        "message" => "Vous n'avez pas l'autorisation pour accéder a ce contenu"
+                    ]);
+            }
+        } else {
+            return response()->json([
+                "message" => "Il faut aller ce connecter"
+            ]);
+        }
+        
     }
 
     /**
@@ -65,21 +83,39 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        $this->validate($request, [
-            'title' => 'required|max:100',
-            'body' => 'required',
-            'category_id' => 'required'
-        ]);
+        session_start();
 
-        $article->update([
-            'title' => $request->title,
-            'body' => $request->body,
-            'category_id' => $request->category_id
-        ]);
+        if (isset($_COOKIE['PHPSESSID'])) {
+            if ($_COOKIE['PHPSESSID'] == session_id()) {
+                
+                if ($_SESSION['admin']) {
 
-        return response()->json([
-            "message" => "Article modifier"
-        ]);
+                    $this->validate($request, [
+                        'title' => 'required|max:100',
+                        'body' => 'required',
+                        'category_id' => 'required'
+                    ]);
+            
+                    $article->update([
+                        'title' => $request->title,
+                        'body' => $request->body,
+                        'category_id' => $request->category_id
+                    ]);
+            
+                    return response()->json([
+                        "message" => "Article modifier"
+                    ]);
+    
+                } else
+                    return response()->json([
+                        "message" => "Vous n'avez pas l'autorisation pour accéder a ce contenu"
+                    ],201);
+            }
+        } else {
+            return response()->json([
+                "message" => "Il faut aller ce connecter"
+            ]);
+        }
     }
 
     /**
@@ -90,10 +126,23 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        $article->delete();
+        session_start();
 
-        return response()->json([
-            "message" => "Article supprimer"
-        ]);
+        if (isset($_COOKIE['PHPSESSID'])) {
+            if ($_COOKIE['PHPSESSID'] == session_id()) {
+                
+                $article->delete();
+        
+                return response()->json([
+                    "message" => "Article supprimer"
+                ]);
+
+            }
+        } else {
+            return response()->json([
+                "message" => "Il faut aller ce connecter"
+            ]);
+        }
+
     }
 }
