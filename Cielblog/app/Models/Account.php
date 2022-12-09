@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Account extends Model
 {
-    //use HasFactory;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -15,8 +15,17 @@ class Account extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'name',
         'mail',
         'password',
+        'admin'
     ];
 
+    public function articles() {
+        return $this->hasMany(Article::class);
+    }
+    
+    public function save_blog() {
+        return $this->hasMany(Save_blog::class);
+    }
 }

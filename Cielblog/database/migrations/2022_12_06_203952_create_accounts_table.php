@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('mail')->unique();
             $table->string('password');
+            $table->boolean('admin');
             $table->timestamps();
         });
     }
@@ -29,6 +30,7 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('accounts');
     }
 };

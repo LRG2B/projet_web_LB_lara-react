@@ -30,12 +30,16 @@ class ArticleController extends Controller
     {
         $this->validate($request, [
             'title' => 'required|max:100',
-            'body' => 'required'
+            'body' => 'required',
+            'category_id' => 'required',
+            'account_id' => 'required'
         ]);
 
         $article = Article::created([
             'title' => $request->title,
-            'body' => $request->body
+            'body' => $request->body,
+            'category_id' => $request->category_id,
+            'account_id' => $request->account_id
         ]);
 
         return response()->json($article, 201);
@@ -63,12 +67,14 @@ class ArticleController extends Controller
     {
         $this->validate($request, [
             'title' => 'required|max:100',
-            'body' => 'required'
+            'body' => 'required',
+            'category_id' => 'required'
         ]);
 
         $article->update([
             'title' => $request->title,
-            'body' => $request->body
+            'body' => $request->body,
+            'category_id' => $request->category_id
         ]);
 
         return response()->json([

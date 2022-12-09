@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    //use HasFactory;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -18,4 +18,8 @@ class Category extends Model
         'name',
         'slug'
     ];
+
+    public function article() {
+        return $this->hasMany(Article::class);
+    }
 }
