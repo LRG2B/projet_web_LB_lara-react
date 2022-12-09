@@ -149,4 +149,65 @@ function Patch_Request_Categories() {
 }
 
 
-export {Post_Request_Categories,Patch_Request_Categories}
+
+function DELETE_Request_Categories() {
+    const [data, setData] = useState();
+    const [err, setError]  = useState('');
+    const [detailscategories,setDetailsCategories] = useState({id: ""});
+
+
+    //PATCH UPDATE
+    const handleSubmit = e => {
+        e.preventDefault()
+    }
+
+    const handleClick = async () => {
+        try {
+                const response = await fetch(`http://127.0.0.1:8000/api/categories/${detailscategories.id}`,
+                {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json',
+                    },
+                });
+
+                //Erreur de fetch
+                if (!response.ok) {
+                    throw new Error(`Error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                setData(result);
+            } 
+                catch (err) {
+                    setError(err.message);
+                }
+        };
+
+
+        return (
+            <div>
+                {err && <h2>{err}</h2>}
+
+                <button onClick={handleClick}> DELETE request</button>
+
+                {/*----------AJOUT----------*/}
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="name"> Id:</label>
+                    <input type="text" name="name" id="Id" onChange={e => setDetailsCategories({...detailscategories, id: e.target.value})} value={detailscategories.id}></input>
+                </div>
+                {/*------------------------------------------*/}
+
+                {data && (
+                    <div>
+                        <h2>Name: {data.name}</h2>
+                        <h2>Slug: {data.slug}</h2>
+                    </div>
+                )}
+            </form>
+            </div>
+        )
+}
+
+
+export {Post_Request_Categories,Patch_Request_Categories,DELETE_Request_Categories}

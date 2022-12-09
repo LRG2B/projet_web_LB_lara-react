@@ -8,7 +8,7 @@ import LoginForm from './component/LoginForm';
 
 //import Request from './component/Request';
 //import PassageParametres from './component/Request';
-import {Post_Request_Categories,Patch_Request_Categories} from './component/Request';
+import {Post_Request_Categories,Patch_Request_Categories,DELETE_Request_Categories} from './component/Request';
  
  
 function App() {
@@ -95,6 +95,7 @@ function App() {
             {/*----------------------------------POST/PATCH/DELETE/CATEGORIES-------------------------*/}
             {/*Request()*/} {<Post_Request_Categories />}
             {<Patch_Request_Categories/>}
+            {<DELETE_Request_Categories />}
 
             {/*-------------------Pour la fonction rechercher----------------*/}
             <input type="text" placeholder="search"
