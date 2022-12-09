@@ -8,6 +8,8 @@ import LoginForm from './component/LoginForm';
 
 import {Post_Request_Categories,Patch_Request_Categories,DELETE_Request_Categories} from './component/Request';
 import Login_API from './component/Login_API'; 
+
+import Patch_Request_Articles from './component/Articles_Request';
  
 function App() {
     const { posts, setPosts } = usePostStore();
@@ -95,6 +97,8 @@ function App() {
             {<Patch_Request_Categories/>}
             {<DELETE_Request_Categories />}
 
+             {/*---------------------------PATCH ARTICLES---------------------*/}
+             < Patch_Request_Articles/>
 
             {/*---------------------------LOGIN NEW FORM---------------------*/}
             {<Login_API />}

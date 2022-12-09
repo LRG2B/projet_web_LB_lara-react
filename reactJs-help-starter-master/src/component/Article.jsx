@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { usePostStore } from '../store/postStore';
 
+import Patch_Request_Articles from '../component/Articles_Request';
+
 function Article() {
 	let { id } = useParams();
 	const [post, setPost] = useState(null);
@@ -21,6 +23,8 @@ function Article() {
 					<Link to={`/`}>retour à la liste</Link>
 				</>
 			)}
+
+			<Patch_Request_Articles />
 		</div>
 	);
 }

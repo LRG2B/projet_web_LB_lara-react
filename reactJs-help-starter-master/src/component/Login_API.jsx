@@ -8,7 +8,7 @@ function Login_API() {
 
     const handleClick = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/accounts',
+            const response = await fetch('http://127.0.0.1:8000/api/login',
             {
                 method: 'POST',
                 body: JSON.stringify ({
@@ -30,11 +30,24 @@ function Login_API() {
         }
     };
 
+    const handleLogout = async () => {
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/logout');
+            const result2 = await response.json();
+            console.log('result is', JSON.stringify(result2,null,4));
+
+        }
+        catch (err){
+            setError(err.message);
+        }
+    }
+
         return (
             <div>
                 {err && <h2>{err}</h2>}
 
                 <button onClick={handleClick}> LOGIN</button>
+                <button onClick={handleLogout}> LOGOUT </button>
 
                 {data && (
                     <div>
