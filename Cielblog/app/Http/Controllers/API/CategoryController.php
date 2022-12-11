@@ -29,37 +29,18 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        session_start();
-
-        if (isset($_COOKIE['PHPSESSID'])) {
-            if ($_COOKIE['PHPSESSID'] == session_id()) {
-
-                if ($_SESSION['admin']) {
-
-                    //on vérifies les entrées
-                    $this->validate($request, [
-                        'name' => 'required|max:100',
-                        'slug' => 'required|max:100'
-                    ]);
+        $this->validate($request, [
+            'name' => 'required|max:100',
+            'slug' => 'required|max:100'
+        ]);
                 
-                    // On crée une nouvelle categorie
-                    $category = Category::create([
-                        'name' => $request->name,
-                        'slug' => $request->slug
-                    ]);
+        // On crée une nouvelle categorie
+        $category = Category::create([
+            'name' => $request->name,
+            'slug' => $request->slug
+        ]);
 
-                    return response()->json($category, 201); //201 veux dire donnée inserer 
-                } else
-                    return response()->json([
-                        "message" => "Vous n'avez pas l'autorisation pour accéder a ce contenu"
-                    ]);
-            }
-        } else {
-            return response()->json([
-                "message" => "Il faut aller ce connecter"
-            ]);
-       
-        }
+        return response()->json($category, 201); //201 veux dire donnée inserer
     }
 
     /**
@@ -82,39 +63,21 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        session_start();
-
-        if (isset($_COOKIE['PHPSESSID'])) {
-            if ($_COOKIE['PHPSESSID'] == session_id()) {
-
-                if ($_SESSION['admin']) {
-                     //on vérifies les entrées
-                    $this->validate($request, [
-                        'name' => 'required|max:100',
-                        'slug' => 'required|max:100'
-                    ]);
+        //on vérifies les entrées
+        $this->validate($request, [
+            'name' => 'required|max:100',
+            'slug' => 'required|max:100'
+        ]);
                 
-                    // On crée une nouvelle categorie
-                    $category->update([
-                        'name' => $request->name,
-                        'slug' => $request->slug
-                    ]);
+        // On crée une nouvelle categorie
+        $category->update([
+            'name' => $request->name,
+            'slug' => $request->slug
+        ]);
 
-                    return response()->json([
-                        "message" => "Article modifier"
-                    ],201);
-                } else
-                    return response()->json([
-                        "message" => "Vous n'avez pas l'autorisation pour accéder a ce contenu"
-                    ]);
-            }
-        } else {
-            return response()->json([
-                "message" => "Il faut aller ce connecter"
-            ]);
-       
-        }
-        
+        return response()->json([
+            "message" => "Article modifier"
+        ],201);
     }
 
     /**
@@ -125,29 +88,11 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        session_start();
-
-        if (isset($_COOKIE['PHPSESSID'])) {
-            if ($_COOKIE['PHPSESSID'] == session_id()) {
-                
-                if ($_SESSION['admin']) {
-                    
-                    $category->delete();
+      
+        $category->delete();
             
-                    return response()->json([
-                        "message" => "Article supprimer"
-                    ]);
-                    
-                } else
-                    return response()->json([
-                        "message" => "Vous n'avez pas l'autorisation pour accéder a ce contenu"
-                    ]);
-            }
-        } else {
-            return response()->json([
-                "message" => "Il faut aller ce connecter"
-            ]);
-       
-        }
+        return response()->json([
+            "message" => "Article supprimer"
+        ]);
     }
 }
