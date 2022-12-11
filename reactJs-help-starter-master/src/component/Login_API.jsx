@@ -101,13 +101,13 @@ function Login_API() {
         }
     
         const handleClick = async () => {
-            try {
+            try {                               //Accès à la base ?!
                     const response = await fetch(`http://127.0.0.1:8000/api/categories/${detailscategories.id}`,
                     {
                         method: 'PATCH',
                         body: JSON.stringify({
-                            name: detailscategories.name,
-                            slug: detailscategories.slug,
+                            mail: detailsuser.mail,
+                            password: detailsuser.password,
                         }),
                         headers: { 'Content-Type': 'application/json', Accept: 'application/json',
                         },
@@ -137,12 +137,12 @@ function Login_API() {
                     {/*----------AJOUT----------*/}
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="name"> New mail:</label>
-                        <input type="text" name="name" id="name" onChange={e => setDetailsCategories({...detailscategories, name: e.target.value})} value={detailscategories.name}></input>
+                        <label htmlFor="mail"> New mail:</label>
+                        <input type="mail" name="mail" id="mail" onChange={e => setDetailsUser({...detailsuser, mail: e.target.value})} value={detailsuser.mail}></input>
                     </div>
                     <div className="form-group">
                         <label htmlFor="password"> New password: </label>
-                        <input type="password" name="password" id="password" onChange={e => setDetailsCategories({...detailscategories, slug: e.target.value})} value={detailscategories.slug}></input>
+                        <input type="password" name="password" id="password" onChange={e => setDetailsUser({...detailsuser, password: e.target.value})} value={detailsuser.password}></input>
                     </div>
                     {/*------------------------------------------*/}
     
