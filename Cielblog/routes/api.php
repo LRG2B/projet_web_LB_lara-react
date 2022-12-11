@@ -8,6 +8,8 @@ use App\Http\Controllers\API\ArticleController;
 use App\Http\Controllers\API\Save_blogController;
 use App\Http\Controllers\API\AccountController;
 
+use App\Http\Controllers\API\AuthController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,10 +20,10 @@ use App\Http\Controllers\API\AccountController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::apiResource("categories", CategoryController::class);
 Route::apiResource("articles", ArticleController::class);
