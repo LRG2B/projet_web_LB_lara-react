@@ -15,6 +15,7 @@ function Login_API() {
 
     const handleClick = async () => {
 
+        //TOKENS
         let user = JSON.parse(sessionStorage.getItem('data'));
         const token = user.data.id; //Il bloque ici
 
