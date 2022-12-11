@@ -73,9 +73,6 @@ function Post_Request_Categories() {
 };
 
 
-
-
-
 function Patch_Request_Categories() {
     const [data, setData] = useState();
     const [err, setError]  = useState('');
@@ -149,17 +146,13 @@ function Patch_Request_Categories() {
 }
 
 
-
 function DELETE_Request_Categories() {
     const [data, setData] = useState();
     const [err, setError]  = useState('');
     const [detailscategories,setDetailsCategories] = useState({id: ""});
 
 
-    //PATCH UPDATE
-    const handleSubmit = e => {
-        e.preventDefault()
-    }
+    const handleSubmit = e => { e.preventDefault() }
 
     const handleClick = async () => {
         try {
@@ -208,6 +201,5 @@ function DELETE_Request_Categories() {
             </div>
         )
 }
-
 
 export {Post_Request_Categories,Patch_Request_Categories,DELETE_Request_Categories}

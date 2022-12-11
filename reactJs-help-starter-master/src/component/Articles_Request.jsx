@@ -6,14 +6,15 @@ function Patch_Request_Articles() {
     const [detailsArticles,setDetailsArticles] = useState({title: "", body: "", category_id: ""});
 
 
+
     //PATCH UPDATE
     const handleSubmit = e => {
         e.preventDefault()
     }
 
     const handleClick = async () => {
-        try {
-                const response = await fetch(`http://127.0.0.1:8000/api/articles/1`,
+        try {                   
+                const response = await fetch(window.location.url, //Permet de d'obtenir l'url de la page actuelle
                 {
                     method: 'PATCH',
                     body: JSON.stringify({
@@ -48,7 +49,6 @@ function Patch_Request_Articles() {
                 {err && <h2>{err}</h2>}
 
                 <button onClick={handleClick}> PATCH/UPDATE request</button>
-
                 {/*----------AJOUT----------*/}
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
@@ -69,4 +69,50 @@ function Patch_Request_Articles() {
         )
 }
 
-export default Patch_Request_Articles;
+
+function DELETE_Article_REQUEST() {
+    const [data, setData] = useState();
+    const [err, setError]  = useState('');
+
+
+    //DELETE
+    const handleSubmit = e => {
+        e.preventDefault()
+    }
+
+    const handleClick = async () => {
+        try {
+                const response = await fetch(window.location.href,
+                {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json',
+                    },
+                });
+
+                //Erreur de fetch
+                if (!response.ok) {
+                    throw new Error(`Error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                setData(result);
+            } 
+                catch (err) {
+                    setError(err.message);
+                }
+        };
+
+
+        return (
+            <div>
+                {err && <h2>{err}</h2>}
+
+                <button onClick={handleClick}> DELETE request</button>
+                {/*----------AJOUT----------*/}
+            </div>
+        )
+}
+
+
+
+export {Patch_Request_Articles,DELETE_Article_REQUEST};

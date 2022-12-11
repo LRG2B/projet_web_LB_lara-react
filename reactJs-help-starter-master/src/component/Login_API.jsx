@@ -4,7 +4,12 @@ function Login_API() {
     
     const [err, setError]  = useState('');
     const [data, setData] = useState();
-    const [logindata,setLoginData] = useState({mail: "", password: ""})
+    const [logindata,setLoginData] = useState({name : "",mail: "", password: ""})
+
+    const handleSubmit = e => {
+        e.preventDefault()
+        Login(logindata)
+    }
 
     const handleClick = async () => {
         try {
@@ -12,8 +17,8 @@ function Login_API() {
             {
                 method: 'POST',
                 body: JSON.stringify ({
-                    mail: "admin@admin.com",
-                    password: "admin123",
+                    mail: logindata.mail,
+                    password: logindata.password,
             }),
             headers : {'Content-Type': 'application/json', Accept: 'application/json',},
         });
@@ -40,19 +45,40 @@ function Login_API() {
         catch (err){
             setError(err.message);
         }
+        setLoginData({name: "", email: ""})
     }
 
         return (
             <div>
                 {err && <h2>{err}</h2>}
 
-                <button onClick={handleClick}> LOGIN</button>
-                <button onClick={handleLogout}> LOGOUT </button>
+                <h2> LOGIN PART</h2>
+            
+                <div>
+                    <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="name"> Name:</label>
+                        <input type="name" name="name" id="name" onChange={e => setLoginData({...logindata, name: e.target.value})} value={logindata.name}></input>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="mail"> Mail:</label>
+                        <input type="mail" name="mail" id="mail" onChange={e => setLoginData({...logindata, mail: e.target.value})} value={logindata.mail}></input>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password"> Password :</label>
+                        <input type="password" name="password" id="password" onChange={e => setLoginData({...logindata, password: e.target.value})} value={logindata.password}></input>
+                    </div>
+                    <button type="submit" onClick={handleClick} value='LOGIN'>LOGIN</button>
+                </form>
+                </div>
+
+                {<button onClick={handleLogout}> LOGOUT </button>}
 
                 {data && (
                     <div>
-                        <h2> {data.mail}</h2>
-                        <h2>  {data.password}</h2>
+                        <h2> {data.name}</h2>
+                        <h2>  {data.mail}</h2>
+                        <h2> {data.password}</h2>
                     </div>
                 )}
 
@@ -61,5 +87,75 @@ function Login_API() {
 
         )
     };
+
+
+    function Patch_Request_Categories() {
+        const [data, setData] = useState();
+        const [err, setError]  = useState('');
+        const [detailsuser,setDetailsUser] = useState({name: "", mail: "", password: ""});
+    
+    
+        //PATCH UPDATE
+        const handleSubmit = e => {
+            e.preventDefault()
+        }
+    
+        const handleClick = async () => {
+            try {
+                    const response = await fetch(`http://127.0.0.1:8000/api/categories/${detailscategories.id}`,
+                    {
+                        method: 'PATCH',
+                        body: JSON.stringify({
+                            name: detailscategories.name,
+                            slug: detailscategories.slug,
+                        }),
+                        headers: { 'Content-Type': 'application/json', Accept: 'application/json',
+                        },
+                    });
+    
+                    //Erreur de fetch
+                    if (!response.ok) {
+                        throw new Error(`Error! status: ${response.status}`);
+                    }
+    
+                    const result = await response.json();
+                    setData(result);
+                } 
+                    catch (err) {
+                        setError(err.message);
+                    }
+            };
+    
+            console.log(data);
+    
+            return (
+                <div>
+                    {err && <h2>{err}</h2>}
+    
+                    <button onClick={handleClick}> PATCH/UPDATE request</button>
+    
+                    {/*----------AJOUT----------*/}
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="name"> New mail:</label>
+                        <input type="text" name="name" id="name" onChange={e => setDetailsCategories({...detailscategories, name: e.target.value})} value={detailscategories.name}></input>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password"> New password: </label>
+                        <input type="password" name="password" id="password" onChange={e => setDetailsCategories({...detailscategories, slug: e.target.value})} value={detailscategories.slug}></input>
+                    </div>
+                    {/*------------------------------------------*/}
+    
+                    {data && (
+                        <div>
+                            <h2>Name: {data.name}</h2>
+                            <h2>Password: {data.mail}</h2>
+                        </div>
+                    )}
+                </form>
+                </div>
+            )
+    }
+
 
 export default Login_API;
