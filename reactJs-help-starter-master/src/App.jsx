@@ -6,9 +6,12 @@ import { usePostCategories } from './store/postStore';
 
 import LoginForm from './component/LoginForm';
 
-import {Post_Request_Categories,Patch_Request_Categories,DELETE_Request_Categories} from './component/Request';
-import Login_API from './component/Login_API'; 
- 
+import {Post_Request_Categories,Patch_Request_Categories,DELETE_Request_Categories} from './component/Categories_Request';
+import Login_API from './component/Login_API';
+
+import  {Patch_Request_Articles,DELETE_Article_REQUEST} from './component/Articles_Request'
+
+
 function App() {
     const { posts, setPosts } = usePostStore();
     const [SearchTerm, setSearchTerm] = useState("");
@@ -95,6 +98,8 @@ function App() {
             {<Patch_Request_Categories/>}
             {<DELETE_Request_Categories />}
 
+             {/*---------------------------PATCH ARTICLES---------------------*/}
+             <Patch_Request_Articles />
 
             {/*---------------------------LOGIN NEW FORM---------------------*/}
             {<Login_API />}
@@ -112,14 +117,14 @@ function App() {
                     onChange={(e) => {
                         const selectedCategorie = e.target.value; 
                         //Recup premier donnée passé en paramêtres donc : l'ID
-                        setRecupCategories(Array.from(selectedCategorie[0]));
-                        //setRecupCategories(selectedCategorie);
+                        //setRecupCategories(Array.from(selectedCategorie[0]));
+                        setRecupCategories(selectedCategorie);
                     }}
                 >
                     <option value="RESET"></option>
                 {categories.length > 0 && categories.map((data) => {
                     return (
-                            <option>{data.id} - {data.name}</option>
+                            <option value={data.id}>{data.name}</option>
                     );
                 })}
                 </select> {/*Affichage de la donnée choisi*/}
