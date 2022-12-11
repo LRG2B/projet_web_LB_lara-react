@@ -28,6 +28,7 @@ function Login_API() {
             {
                 method: 'POST',
                 body: JSON.stringify ({
+
                     mail: logindata.mail,
                     password: logindata.password,
             }),

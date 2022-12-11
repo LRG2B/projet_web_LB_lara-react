@@ -17,28 +17,16 @@ class Save_blogController extends Controller
      */
     public function store(Request $request)
     {
-
-        session_start();
-
-        if (isset($_COOKIE['PHPSESSID']) && isset($_SESSION['account_id'])) {
-            if ($_COOKIE['PHPSESSID'] == session_id() || $_SESSION['admin']){
-
-                    $this->validate($request, [
-                        'article_id' => 'required'
-                    ]);
+        $this->validate($request, [
+            'article_id' => 'required'
+        ]);
             
-                    $save_blog = Save_blog::created([
-                        'account_id' => $request->account_id,
-                        'article_id' => $_SESSION['account_id']
-                    ]);
+        $save_blog = Save_blog::created([
+            'account_id' => $request->account_id,
+            'article_id' => $_SESSION['account_id']
+        ]);
             
-                    return response()->json($save_blog, 201);              
-            }
-        } else {
-            return response()->json([
-                "message" => "Il faut aller ce connecter"
-            ]);
-        }
+        return response()->json($save_blog, 201);              
     }
 
     /**
@@ -49,23 +37,7 @@ class Save_blogController extends Controller
      */
     public function show(Save_blog $save_blog)
     {
-        
-        session_start();
-
-        if (isset($_COOKIE['PHPSESSID']) && isset($_SESSION['account_id'])) {
-            if ($_COOKIE['PHPSESSID'] == session_id() || $_SESSION['admin']){
-                
-                return response()->json($save_blog);                            
-            }
-            else
-                return response()->json([
-                    "message" => "Vous n'avez pas l'autorisation pour accéder a ce contenu"
-                ]);
-        } else {
-            return response()->json([
-                "message" => "Il faut aller ce connecter"
-            ]);
-        }   
+        return response()->json($save_blog);                            
     }
 
     /**
@@ -76,26 +48,10 @@ class Save_blogController extends Controller
      */
     public function destroy(Save_blog $save_blog)
     {
-                
-        session_start();
-
-        if (isset($_COOKIE['PHPSESSID']) && isset($_SESSION['account_id'])) {
-            if ($_COOKIE['PHPSESSID'] == session_id() || $_SESSION['admin']){
-                               
-                $save_blog->delete();
+        $save_blog->delete();
         
-                return response()->json([
-                    'message' => 'article supprimer'
-                ]);                                            
-            }
-            else
-                return response()->json([
-                    "message" => "Vous n'avez pas l'autorisation pour accéder a ce contenu"
-                ]);
-        } else {
-            return response()->json([
-                "message" => "Il faut aller ce connecter"
-            ]);
-        }   
-    }
+        return response()->json([
+            'message' => 'article supprimer'
+        ]);  
+    }                                         
 }
