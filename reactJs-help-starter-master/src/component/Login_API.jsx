@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { usePostLogin } from '../store/postStore';
+
+var truc = "HDHHDFSDHSHDHh"
 
 function Login_API() {
     
     const [err, setError]  = useState('');
     const [data, setData] = useState();
-    const [logindata,setLoginData] = useState({name : "",mail: "", password: ""})
+    const [logindata,setLoginData] = useState({name : "",email: "", password: ""})
 
     //TOKENS
 
@@ -13,30 +16,33 @@ function Login_API() {
         //Login(logindata)
     }
 
+
     const handleClick = async () => {
 
         //TOKENS
-        let user = JSON.parse(sessionStorage.getItem('data'));
-        const token = user.data.id; //Il bloque ici
-
-        if (token == null) {
-            console.log("Error, data null")
-        }
+        //let user = JSON.parse(sessionStorage.getItem('data'));
+        //const token = user.data.id; //Il bloque ici
 
         try {
             const response = await fetch('http://127.0.0.1:8000/api/login',
             {
                 method: 'POST',
                 body: JSON.stringify ({
-
-                    mail: logindata.mail,
+                    name: logindata.name,
+                    email: logindata.email,
                     password: logindata.password,
             }),
-            headers : {'Content-Type': 'application/json', Accept: 'application/json', 'Authorisation': `Bearer ${token}` },
+            headers : {'Content-Type': 'application/json', Accept: 'application/json', },
         });
 
         const result = await response.json();
-        console.log(token)
+        //Recup token
+        var letoken = result.access_token;
+        sessionStorage.setItem("letoken",letoken)
+
+        console.log("THE TOKEN", letoken);
+        //const token = access_token;
+        //console.log(token)
         console.log('result is', JSON.stringify(result,null,4));
 
         setData(result);
@@ -46,6 +52,26 @@ function Login_API() {
             setError(err.message);
         }
     };
+
+    const Get_Request_Categories2 = async () =>  {
+
+            var token_sessionstorage = sessionStorage.getItem("letoken")
+            console.log("TOKEN STOCKE ",token_sessionstorage)
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/me', 
+                { method: 'GET',
+                    headers : {'Content-Type': 'application/json', Accept: 'application/json', 'Authorisation': `Bearer ${token_sessionstorage}`},
+                });
+
+        const result = await response.json();
+        console.log(result)
+        }
+
+        catch {
+            console.log("ERROR")
+        }
+    };
+
 
     const handleLogout = async () => {
         try {
@@ -65,7 +91,6 @@ function Login_API() {
                 {err && <h2>{err}</h2>}
 
                 <h2> LOGIN PART</h2>
-            
                 <div>
                     <form onSubmit={handleSubmit}>
                     <div className="form-group">
@@ -73,8 +98,8 @@ function Login_API() {
                         <input type="name" name="name" id="name" onChange={e => setLoginData({...logindata, name: e.target.value})} value={logindata.name}></input>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="mail"> Mail:</label>
-                        <input type="mail" name="mail" id="mail" onChange={e => setLoginData({...logindata, mail: e.target.value})} value={logindata.mail}></input>
+                        <label htmlFor="mail"> Email:</label>
+                        <input type="mail" name="mail" id="mail" onChange={e => setLoginData({...logindata, email: e.target.value})} value={logindata.email}></input>
                     </div>
                     <div className="form-group">
                         <label htmlFor="password"> Password :</label>
@@ -85,11 +110,12 @@ function Login_API() {
                 </div>
 
                 {<button onClick={handleLogout}> LOGOUT </button>}
+                {<button onClick={Get_Request_Categories2}>GET TOKEN</button>}
 
                 {data && (
                     <div>
                         <h2> {data.name}</h2>
-                        <h2>  {data.mail}</h2>
+                        <h2>  {data.email}</h2>
                         <h2> {data.password}</h2>
                     </div>
                 )}
@@ -104,7 +130,7 @@ function Login_API() {
     function Patch_Request_Categories() {
         const [data, setData] = useState();
         const [err, setError]  = useState('');
-        const [detailsuser,setDetailsUser] = useState({name: "", mail: "", password: ""});
+        const [detailsuser,setDetailsUser] = useState({name: "", email: "", password: ""});
     
     
         //PATCH UPDATE
@@ -118,7 +144,7 @@ function Login_API() {
                     {
                         method: 'PATCH',
                         body: JSON.stringify({
-                            mail: detailsuser.mail,
+                            email: detailsuser.email,
                             password: detailsuser.password,
                         }),
                         headers: { 'Content-Type': 'application/json', Accept: 'application/json',
@@ -150,7 +176,7 @@ function Login_API() {
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="mail"> New mail:</label>
-                        <input type="mail" name="mail" id="mail" onChange={e => setDetailsUser({...detailsuser, mail: e.target.value})} value={detailsuser.mail}></input>
+                        <input type="mail" name="mail" id="mail" onChange={e => setDetailsUser({...detailsuser, email: e.target.value})} value={detailsuser.email}></input>
                     </div>
                     <div className="form-group">
                         <label htmlFor="password"> New password: </label>
@@ -161,7 +187,7 @@ function Login_API() {
                     {data && (
                         <div>
                             <h2>Name: {data.name}</h2>
-                            <h2>Password: {data.mail}</h2>
+                            <h2>Password: {data.email}</h2>
                         </div>
                     )}
                 </form>

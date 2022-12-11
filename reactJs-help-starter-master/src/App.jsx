@@ -21,7 +21,7 @@ function App() {
 
 
     //A corriger + tard
-    const [recupCategorie, setRecupCategories] = useState("");
+    const [recupCategorie, setRecupCategories] = useState(1);
 
  
 //---------------------------------Login/Logout
@@ -94,12 +94,12 @@ function App() {
             )}
 
             {/*----------------------------------POST/PATCH/DELETE/CATEGORIES-------------------------*/}
+                <h2> CATEGORIES PART</h2>
+
             {/*Request()*/} {<Post_Request_Categories />}
             {<Patch_Request_Categories/>}
             {<DELETE_Request_Categories />}
 
-             {/*---------------------------PATCH ARTICLES---------------------*/}
-             <Patch_Request_Articles />
 
             {/*---------------------------LOGIN NEW FORM---------------------*/}
             {<Login_API />}
@@ -121,7 +121,6 @@ function App() {
                         setRecupCategories(selectedCategorie);
                     }}
                 >
-                    <option value="RESET"></option>
                 {categories.length > 0 && categories.map((data) => {
                     return (
                             <option value={data.id}>{data.name}</option>

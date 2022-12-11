@@ -48,7 +48,7 @@ function Patch_Request_Articles() {
             <div>
                 {err && <h2>{err}</h2>}
 
-                <button onClick={handleClick}> PATCH/UPDATE request</button>
+                <button onClick={handleClick}> PATCH/UPDATE Articles request</button>
                 {/*----------AJOUT----------*/}
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
