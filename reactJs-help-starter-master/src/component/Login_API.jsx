@@ -6,12 +6,22 @@ function Login_API() {
     const [data, setData] = useState();
     const [logindata,setLoginData] = useState({name : "",mail: "", password: ""})
 
+    //TOKENS
+
     const handleSubmit = e => {
         e.preventDefault()
-        Login(logindata)
+        //Login(logindata)
     }
 
     const handleClick = async () => {
+
+        let user = JSON.parse(sessionStorage.getItem('data'));
+        const token = user.data.id; //Il bloque ici
+
+        if (token == null) {
+            console.log("Error, data null")
+        }
+
         try {
             const response = await fetch('http://127.0.0.1:8000/api/login',
             {
@@ -20,11 +30,11 @@ function Login_API() {
                     mail: logindata.mail,
                     password: logindata.password,
             }),
-            headers : {'Content-Type': 'application/json', Accept: 'application/json',},
+            headers : {'Content-Type': 'application/json', Accept: 'application/json', 'Authorisation': `Bearer ${token}` },
         });
 
         const result = await response.json();
-
+        console.log(token)
         console.log('result is', JSON.stringify(result,null,4));
 
         setData(result);
@@ -68,7 +78,7 @@ function Login_API() {
                         <label htmlFor="password"> Password :</label>
                         <input type="password" name="password" id="password" onChange={e => setLoginData({...logindata, password: e.target.value})} value={logindata.password}></input>
                     </div>
-                    <button type="submit" onClick={handleClick} value='LOGIN'>LOGIN</button>
+                    <button type="submit" onClick={handleClick}> LOGIN</button>
                 </form>
                 </div>
 
@@ -132,7 +142,7 @@ function Login_API() {
                 <div>
                     {err && <h2>{err}</h2>}
     
-                    <button onClick={handleClick}> PATCH/UPDATE request</button>
+                    <button onClick={handleClick}> PATCH/UPDATE Login request</button>
     
                     {/*----------AJOUT----------*/}
                 <form onSubmit={handleSubmit}>

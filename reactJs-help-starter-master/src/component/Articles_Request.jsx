@@ -14,7 +14,7 @@ function Patch_Request_Articles() {
 
     const handleClick = async () => {
         try {                   
-                const response = await fetch(window.location.url, //Permet de d'obtenir l'url de la page actuelle
+                const response = await fetch(window.location.href, //Permet de d'obtenir l'url de la page actuelle
                 {
                     method: 'PATCH',
                     body: JSON.stringify({

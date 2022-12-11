@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { usePostStore } from '../store/postStore';
 
-import {Patch_Request_ArticlesDELETE_Article_REQUEST,} from '../component/Articles_Request';
+import {Patch_Request_Articles,DELETE_Article_REQUEST,} from '../component/Articles_Request';
 
 function Article() {
 	let { id } = useParams();
@@ -25,6 +25,7 @@ function Article() {
 			)}
 
 			<Patch_Request_Articles />
+			<DELETE_Article_REQUEST />
 		</div>
 	);
 }
