@@ -8,12 +8,12 @@ function Login_API() {
 
     const handleClick = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/accounts',
+            const response = await fetch('http://127.0.0.1:8000/api/login',
             {
                 method: 'POST',
                 body: JSON.stringify ({
-                    mail: "admin@admin.com",
-                    password: "admin123",
+                    mail: "baptiste@email.com",
+                    password: "123456789",
             }),
             headers : {'Content-Type': 'application/json', Accept: 'application/json',},
         });
