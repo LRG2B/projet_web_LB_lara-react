@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { usePostLogin } from '../store/postStore';
-
-var truc = "HDHHDFSDHSHDHh"
 
 function Login_API() {
     
@@ -18,11 +15,6 @@ function Login_API() {
 
 
     const handleClick = async () => {
-
-        //TOKENS
-        //let user = JSON.parse(sessionStorage.getItem('data'));
-        //const token = user.data.id; //Il bloque ici
-
         try {
             const response = await fetch('http://127.0.0.1:8000/api/login',
             {
@@ -60,7 +52,7 @@ function Login_API() {
             try {
                 const response = await fetch('http://127.0.0.1:8000/api/me', 
                 { method: 'GET',
-                    headers : {'Content-Type': 'application/json', Accept: 'application/json', 'Authorisation': `Bearer ${token_sessionstorage}`},
+                    headers : {'Content-Type': 'application/json', Accept: 'application/json', Authorization : `Bearer ${token_sessionstorage}`},
                 });
 
         const result = await response.json();

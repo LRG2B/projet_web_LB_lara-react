@@ -4,6 +4,11 @@ import { usePostStore } from '../store/postStore';
 
 import {Patch_Request_Articles,DELETE_Article_REQUEST,} from '../component/Articles_Request';
 
+var token_sessionstorage = sessionStorage.getItem("letoken")
+console.log("TEST")
+console.log(token_sessionstorage)
+
+
 function Article() {
 	let { id } = useParams();
 	const [post, setPost] = useState(null);
@@ -18,6 +23,7 @@ function Article() {
 		<div>
 			{post && (
 				<>
+					<h2>{post.id}</h2>
 					<h2>{post.title}</h2>
 					<p>{post.body}</p>
 					<Link to={`/`}>retour à la liste</Link>

@@ -9,8 +9,3 @@ export const usePostCategories = create((set) => ({
 	categories: [],
 	setCategories: (categories) => set((state) => ({categories: categories })),
 }))
-
-export const usePostLogin = create((set) => ({
-	logintab: [],
-	setCategories: (logintab) => set((state) => ({logintab: logintab })),
-}))
