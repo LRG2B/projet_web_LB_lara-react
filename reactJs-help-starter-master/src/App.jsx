@@ -7,7 +7,7 @@ import { usePostCategories } from './store/postStore';
 import LoginForm from './component/LoginForm';
 
 import {Post_Request_Categories,Patch_Request_Categories,DELETE_Request_Categories} from './component/Categories_Request';
-import Login_API from './component/Login_API';
+import {Login_API,Create_Accounts} from './component/Login_API';
 
 import  {Patch_Request_Articles,DELETE_Article_REQUEST} from './component/Articles_Request'
 
@@ -23,41 +23,6 @@ function App() {
     //A corriger + tard
     const [recupCategorie, setRecupCategories] = useState(1);
 
- 
-//---------------------------------Login/Logout
-    const adminUser = {
-        email: "admin@admin.com",
-        password: "admin123"
-    }
-
-    //Pour recup les infos passés lors du login
-    const [user, setUser] = useState({name: "", email:""});
-    const [error, setError] = useState("");
-
-    //Fonction qu'on va appeler quand on va essayer de se login in
-    const Login = details => {
-        //Affiche dans la console les éléments passé en paramêtres
-        console.log(details);
-
-        if (details.email == adminUser.email && details.password == adminUser.password) {
-            //Affiche tous dans le console.log (name, email, password passé en paramêtre)
-            //console.log("Logged in")
-            setUser({
-                name: details.name,
-                email: details.email
-            });
-        } 
-        else {
-            console.log("Details do not match")
-            setError("Details do not match")
-        }
-    }
-
-    const Logout = () => {
-        console.log("Logout");
-        //On return rien dans la condition n'est plus rempli et le formulaire réapparais
-        setUser({name: "", email: ""})
-    }
 //--------------------------------------------------------
 
     //Pour filter les resultats 
@@ -83,15 +48,7 @@ function App() {
  
     return (
         <div className="App">
-            <h1>Les articles</h1> {/*Si les conditions sont remplis cela s'affiche*/}
-            {(user.email != "") ? (
-                <div className="welcome"> {/*Affichage du nom*/}
-                    <h2>Welcome, <span>{user.name}</span></h2>
-                    <button onClick={Logout}>Logout</button>
-                </div>
-            ) : ( //Si on est pas login, on lance le login
-                <LoginForm Login={Login} error={error}/>
-            )}
+            <h1>Cielblog : Les articles</h1> {/*Si les conditions sont remplis cela s'affiche*/}
 
             {/*----------------------------------POST/PATCH/DELETE/CATEGORIES-------------------------*/}
                 <h2> CATEGORIES PART</h2>
@@ -102,7 +59,8 @@ function App() {
 
 
             {/*---------------------------LOGIN NEW FORM---------------------*/}
-            {<Login_API />}
+            {<Login_API />} 
+            {<Create_Accounts />}
 
             {/*-------------------Pour la fonction rechercher----------------*/}
             <input type="text" placeholder="search"

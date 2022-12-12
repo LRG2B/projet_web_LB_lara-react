@@ -43,9 +43,11 @@ function Login_API() {
         catch (err) {
             setError(err.message);
         }
+        //Call in
     };
 
-    const Get_Request_Categories2 = async () =>  {
+    //Pour TEST que 
+    let Get_Request_Categories2 = async () =>  {
 
             var token_sessionstorage = sessionStorage.getItem("letoken")
             console.log("TOKEN STOCKE ",token_sessionstorage)
@@ -102,7 +104,7 @@ function Login_API() {
                 </div>
 
                 {<button onClick={handleLogout}> LOGOUT </button>}
-                {<button onClick={Get_Request_Categories2}>GET TOKEN</button>}
+                {<button onClick={Get_Request_Categories2}>GET TOKEN - TEST</button>}
 
                 {data && (
                     <div>
@@ -111,13 +113,65 @@ function Login_API() {
                         <h2> {data.password}</h2>
                     </div>
                 )}
-
             </div>
-
-
         )
     };
 
+
+function Create_Accounts() {
+    
+        const [logindata,setLoginData] = useState({name : "",email: "", password: ""})
+        
+        const handleSubmit = e => {
+            e.preventDefault()
+            //Login(logindata)
+        }
+        const handleClick_Create_Accounts = async () => {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/register',
+                {
+                    method: 'POST',
+                    body: JSON.stringify ({
+                        name: logindata.name,
+                        email: logindata.email,
+                        password: logindata.password,
+                }),
+                headers : {'Content-Type': 'application/json', Accept: 'application/json', },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error! status: ${response.status}`);
+            }
+    
+            const result = await response.json();
+            console.log('result is', JSON.stringify(result,null,4));
+        }
+            catch (err) {
+                console.log("ERROR");
+            }
+        };
+        return (
+            <div>
+                <p> Create accounts</p>
+                <div>
+                    <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="name"> Name:</label>
+                        <input type="name" name="name" id="name" onChange={e => setLoginData({...logindata, name: e.target.value})} value={logindata.name}></input>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="mail"> Email:</label>
+                        <input type="mail" name="mail" id="mail" onChange={e => setLoginData({...logindata, email: e.target.value})} value={logindata.email}></input>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password"> Password :</label>
+                        <input type="password" name="password" id="password" onChange={e => setLoginData({...logindata, password: e.target.value})} value={logindata.password}></input>
+                    </div>
+                    <div> 8 caractères minimum</div>
+                    <button type="submit" onClick={handleClick_Create_Accounts}> Create accounts</button>
+                </form>
+                </div>
+            </div>)}
 
     function Patch_Request_Categories() {
         const [data, setData] = useState();
@@ -188,4 +242,4 @@ function Login_API() {
     }
 
 
-export default Login_API;
+export {Login_API,Create_Accounts};
