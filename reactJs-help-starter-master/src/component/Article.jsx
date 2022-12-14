@@ -39,10 +39,11 @@ function Article() {
                 catch { console.log("ERROR"); }
         };
 
+		//L'appeller quand on est sur la page de l'article
 		const HClick_Supprimer_Articles_Saved = async () => {
 			const [data, setData] = useState();
 			try {
-				const response = await fetch('http://127.0.0.1:8000/api/save_blogs',
+				const response = await fetch(`http://127.0.0.1:8000/api/save_blogs/${recupDataID}`,
 				{
 					method: 'DELETE',
                     headers: { 'Content-Type': 'application/json', Accept: 'application/json', Authorization : `Bearer ${token_sessionstorage}`},
@@ -69,6 +70,7 @@ function Article() {
 					<h2>{post.title}</h2>
 					<p>{post.body}</p>
 					<button onClick={HClick_Save_Articles}>Enregistrer son article </button>
+					<button onClick={HClick_Supprimer_Articles_Saved}>Supprimer l'article de ses favoris</button>
 					<Link to={`/`}>retour à la liste</Link>
 				</>
 			)}
