@@ -106,7 +106,7 @@ function DELETE_Article_REQUEST() {
         return (
             <div>
                 {err && <h2>{err}</h2>}
-
+            <form></form>
                 <button onClick={handleClick}> DELETE request</button>
                 {/*----------AJOUT----------*/}
             </div>

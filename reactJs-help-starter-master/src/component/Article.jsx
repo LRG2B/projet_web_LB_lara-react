@@ -21,17 +21,16 @@ function Article() {
 	}, [id, posts]);
 
 	const HClick_Save_Articles = async () => {
-        try {
+        console.log("ID enregistré 1 : ", recupDataID)
+		try {
                 const response = await fetch('http://127.0.0.1:8000/api/save_blogs',
                 {
                     method: 'POST',
                     body: JSON.stringify({
                         article_id: recupDataID,
                     }),
-                    headers: { 'Content-Type': 'application/json', Accept: 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json', Authorization : `Bearer ${token_sessionstorage}`},
                 });
-				console.log("ID enregistré", recupDataID)
                 //Erreur de fetch
                 if (!response.ok) {
                     throw new Error(`Error! status: ${response.status}`);
