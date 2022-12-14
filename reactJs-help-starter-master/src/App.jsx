@@ -93,7 +93,8 @@ function App() {
             {/*---------------Afficher tous les articles--------------------*/}
                 {posts.filter((post) => {  //toLowerCase va convertir le texte en minuscule même si on tape en majuscule (davantage de souplesse pour l'utilisateur)
                         return (post.title.toLowerCase().includes(SearchTerm.toLowerCase()) && post.category_id == recupCategorie)//Si des mots qu'on a mis dans la barre de recherche se situe dans les titres des articles
-                }).map((post) => {
+                })
+                .map((post) => {
                         return (
                             <div key={post.id}>
                                 {/*Consulter directement l'article*/}

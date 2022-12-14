@@ -85,8 +85,7 @@ function DELETE_Article_REQUEST() {
                 const response = await fetch(window.location.href,
                 {
                     method: 'DELETE',
-                    headers: { 'Content-Type': 'application/json', Accept: 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json',},
                 });
 
                 //Erreur de fetch
