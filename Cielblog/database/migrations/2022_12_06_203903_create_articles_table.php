@@ -24,10 +24,10 @@ return new class extends Migration
                 ->on('categories')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
-            $table->unsignedBigInteger('account_id');
-            $table->foreign('account_id')
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
                 ->references('id')
-                ->on('accounts')
+                ->on('users')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
             $table->timestamps();

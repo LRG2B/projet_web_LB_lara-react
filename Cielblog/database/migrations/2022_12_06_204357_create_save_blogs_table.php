@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::create('save_blogs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('account_id');
-            $table->foreign('account_id')
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
                 ->references('id')
-                ->on('accounts')
+                ->on('users')
                 ->onDelete('restrict')
                 ->onUpdate('restrict');
             $table->unsignedBigInteger('article_id');

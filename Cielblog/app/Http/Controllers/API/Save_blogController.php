@@ -4,11 +4,25 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Save_blog;
-use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
 
 class Save_blogController extends Controller
 {
+
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $save_blog = Save_blog::where('user_id', $request->user()->id)->get();
+        
+
+        // On retourne les informations des utilisateurs en JSON
+        return response()->json($save_blog);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -21,23 +35,12 @@ class Save_blogController extends Controller
             'article_id' => 'required'
         ]);
             
-        $save_blog = Save_blog::created([
-            'account_id' => $request->account_id,
-            'article_id' => $_SESSION['account_id']
+        $save_blog = Save_blog::create([
+            'article_id' => $request->article_id,
+            'user_id' => $request->user()->id
         ]);
             
         return response()->json($save_blog, 201);              
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Save_blog  $save_blog
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Save_blog $save_blog)
-    {
-        return response()->json($save_blog);                            
     }
 
     /**

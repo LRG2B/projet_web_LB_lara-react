@@ -13,7 +13,7 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function get_categories()
     {
         $category = Category::all();
 
@@ -64,6 +64,8 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         //on vérifies les entrées
+        $this->middleware('auth:sanctum');
+        
         $this->validate($request, [
             'name' => 'required|max:100',
             'slug' => 'required|max:100'
@@ -96,3 +98,5 @@ class CategoryController extends Controller
         ]);
     }
 }
+
+ 

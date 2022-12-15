@@ -10,13 +10,13 @@ class Save_blog extends Model
     use HasFactory;
 
     protected $fillable = [
-        'account_id',
+        'user_id',
         'article_id'
     ];
 
 
-    public function account_id() {
-        return $this->belongsTo(Account::class);
+    public function user_id() {
+        return $this->belongsTo(User::class);
     }
 
     public function article_id() {

@@ -26,20 +26,19 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function add(Request $request)
     {
         $this->validate($request, [
             'title' => 'required|max:100',
             'body' => 'required',
-            'category_id' => 'required',
-            'account_id' => 'required'
+            'category_id' => 'required'
         ]);
             
-        $article = Article::created([
+        $article = Article::create([
             'title' => $request->title,
             'body' => $request->body,
             'category_id' => $request->category_id,
-            'account_id' => $request->account_id
+            'user_id' => $request->user()->id
         ]);
             
         return response()->json($article, 201);
@@ -64,7 +63,7 @@ class ArticleController extends Controller
      * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $article)
+    public function patch(Request $request, Article $article)
     {
         $this->validate($request, [
             'title' => 'required|max:100',
@@ -90,7 +89,7 @@ class ArticleController extends Controller
      * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Article $article)
+    public function delete(Article $article)
     {
         $article->delete();
         
