@@ -23,9 +23,15 @@ use App\Http\Controllers\API\AuthController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
+Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 
-Route::apiResource("categories", CategoryController::class);
-Route::apiResource("articles", ArticleController::class);
-Route::apiResource("save_blogs", Save_blogController::class);
-Route::apiResource("accounts", AccountController::class);
+ 
+Route::apiResource("categories", CategoryController::class)->middleware('auth:sanctum');
+Route::get('categories', [CategoryController::class, 'get_categories']);
+
+Route::apiResource("articles", ArticleController::class)->middleware('auth:sanctum');
+Route::post("articles/add", [ArticleController::class, 'add'])->middleware('auth:sanctum');
+Route::get("articles", [ArticleController::class, 'get_articles'])->middleware('auth:sanctum');
+
+Route::apiResource("save_blogs", Save_blogController::class)->middleware('auth:sanctum');

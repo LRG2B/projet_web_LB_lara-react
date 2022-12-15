@@ -17,15 +17,15 @@ class Article extends Model
         'title',
         'body',
         'category_id',
-        'account_id'
+        'user_id'
     ];
 
     public function category_id() {
         return $this->belongsTo(Category::class);
     }
 
-    public function account_id() {
-        return $this->belongsTo(Account::class);
+    public function user_id() {
+        return $this->belongsTo(User::class);
     }
 
     public function save_blog() {

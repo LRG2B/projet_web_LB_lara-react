@@ -13,7 +13,7 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function get_categories()
     {
         $category = Category::all();
 
@@ -96,3 +96,5 @@ class CategoryController extends Controller
         ]);
     }
 }
+
+ 
