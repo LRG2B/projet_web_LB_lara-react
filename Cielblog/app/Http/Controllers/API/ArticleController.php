@@ -13,7 +13,7 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function get_articles()
+    public function index()
     {
         $article = Article::all();
 
@@ -63,7 +63,7 @@ class ArticleController extends Controller
      * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $article)
+    public function patch(Request $request, Article $article)
     {
         $this->validate($request, [
             'title' => 'required|max:100',
@@ -89,7 +89,7 @@ class ArticleController extends Controller
      * @param  \App\Models\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Article $article)
+    public function delete(Article $article)
     {
         $article->delete();
         

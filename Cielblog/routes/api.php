@@ -32,6 +32,4 @@ Route::get('categories', [CategoryController::class, 'get_categories']);
 
 Route::apiResource("articles", ArticleController::class)->middleware('auth:sanctum');
 Route::post("articles/add", [ArticleController::class, 'add'])->middleware('auth:sanctum');
-Route::get("articles", [ArticleController::class, 'get_articles'])->middleware('auth:sanctum');
-
 Route::apiResource("save_blogs", Save_blogController::class)->middleware('auth:sanctum');

@@ -64,6 +64,8 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         //on vérifies les entrées
+        $this->middleware('auth:sanctum');
+        
         $this->validate($request, [
             'name' => 'required|max:100',
             'slug' => 'required|max:100'
