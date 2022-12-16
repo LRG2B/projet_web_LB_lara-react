@@ -13,7 +13,7 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function get_articles()
     {
         $article = Article::all();
 
