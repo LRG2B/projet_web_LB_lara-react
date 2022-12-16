@@ -9,3 +9,8 @@ export const usePostCategories = create((set) => ({
 	categories: [],
 	setCategories: (categories) => set((state) => ({categories: categories })),
 }))
+
+export const useArticlesEStore = create((set) => ({
+	ArticleEStore: [],
+	setArticlesE: (ArticleEStore) => set((state) => ({ ArticleEStore: ArticleEStore })),
+}));

@@ -36,7 +36,7 @@ function Login_API() {
         sessionStorage.setItem("letoken",letoken)
 
         console.log("THE TOKEN", letoken);
-        
+
         var token_sessionstorage = sessionStorage.getItem("letoken")
         console.log("TOKEN STOCKE ",token_sessionstorage)
         //const token = access_token;
@@ -66,7 +66,6 @@ function Login_API() {
         const result = await response.json();
         console.log(result)
         }
-
         catch {
             console.log("ERROR")
         }
